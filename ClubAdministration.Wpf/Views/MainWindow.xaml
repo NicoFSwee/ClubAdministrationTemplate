@@ -1,0 +1,45 @@
+﻿<controls:MetroWindow x:Class="ClubAdministration.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClubAdministration.Wpf"
+        xmlns:viewModels="clr-namespace:ClubAdministration.Wpf.ViewModels"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
+        Title="Club Administration" Height="450" Width="291.053">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Margin="5,5,5,5" Content="Section: "/>
+        <ComboBox Margin="5,5,5,5" Grid.Column="1" ItemsSource="{Binding Sections}" SelectedValue="Id" DisplayMemberPath="Name" SelectedItem="{Binding SelectedSection, Mode=TwoWay}"/>
+        <DataGrid CanUserAddRows="False" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Members}" SelectedItem="{Binding SelectedMember}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Lastname" Binding="{Binding LastName}"/>
+                <DataGridTextColumn Header="Firstname" Binding="{Binding FirstName}"/>
+                <DataGridTextColumn Header="Sections" Binding="{Binding MemberSections.Count}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="2" Grid.ColumnSpan="3" Margin="5,10,5,5" Command="{Binding CmdEditMember}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Member "/>
+                    <TextBlock Text="{Binding SelectedMember.FullName}"/>
+                    <TextBlock Text=" bearbeiten"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid> 
+  
+</controls:MetroWindow>
