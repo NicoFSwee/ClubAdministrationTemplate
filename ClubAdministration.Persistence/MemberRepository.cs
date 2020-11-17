@@ -1,4 +1,5 @@
 ﻿using ClubAdministration.Core.Contracts;
+using ClubAdministration.Core.DataTransferObjects;
 using ClubAdministration.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace ClubAdministration.Persistence
             var memberInDb = _dbContext.Members.Where(m => m.Id != id && m.FirstName == firstName && m.LastName == lastName)
                                 .FirstOrDefault();
 
-            if(memberInDb != null)
+            if (memberInDb != null)
             {
                 return true;
             }
@@ -51,5 +52,27 @@ namespace ClubAdministration.Persistence
             => await _dbContext.Members.OrderBy(m => m.LastName)
                                         .Select(m => m.FullName)
                                         .ToArrayAsync();
+
+        public async Task<MemberDto[]> GetMemberDtosBySectionId(int sectionId)
+            => (await _dbContext.MemberSections
+                .Where(ms => ms.SectionId == sectionId)
+                .Include(ms => ms.Member)
+                .ToArrayAsync())
+                .GroupBy(ms => ms.Member)
+               .Select(ms => new MemberDto
+               {
+                   Id = ms.Key.Id,
+                   FirstName = ms.Key.FirstName,
+                   LastName = ms.Key.LastName,
+                   CountSections = _dbContext.MemberSections.Count(m => m.MemberId == ms.Key.Id)
+               })
+                .OrderByDescending(m => m.CountSections)
+                  .ThenBy(m => m.LastName)
+                  .ThenBy(m => m.FirstName)
+                .ToArray();
+
+        public async Task<Member> GetByIdAsync(int id)
+            => await _dbContext.Members
+                                .FindAsync(id);
     }
 }

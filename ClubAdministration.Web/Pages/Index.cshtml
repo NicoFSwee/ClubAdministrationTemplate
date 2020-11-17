@@ -9,15 +9,37 @@
 <div class="row">
   <div class="col-md-2">
     <form name="formIndex" method="post" onchange="DoPostBack();">
-      <div class="form-group">
-        @*TODO*@
-      </div>
+        <div class="form-group">
+            <label>Section</label>
+            <select asp-for="SectionId" asp-items="Model.SelectListSections" class="form-control" onchange="this.form.submit();"></select>
+        </div>
     </form>
   </div>
 </div>
 
 <table class="table">
-  @*TODO*@
+    <thead>
+        <tr>
+            <th class="text-center col-md-1">@Html.DisplayNameFor(x => Model.Members.FirstOrDefault().LastName)</th>
+            <th class="text-center col-md-2">@Html.DisplayNameFor(x => Model.Members.FirstOrDefault().FirstName)</th>
+            <th class="text-center col-md-2">In Sections</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.SectionIsSelected)
+        {
+            @foreach (var member in Model.Members)
+            {
+                <tr>
+                    <td class="text-center">@Html.DisplayFor(x => member.LastName)</td>
+                    <td class="text-center">@Html.DisplayFor(x => member.FirstName)</td>
+                    <td class="text-center">@Html.DisplayFor(x => member.CountSections)</td>
+                    <td class="text-center"><a asp-page="./Members/Edit" asp-route-id="@member.Id">Edit Member</a></td>
+                </tr>
+            }
+        }
+    </tbody>
 </table>
 
 <script>

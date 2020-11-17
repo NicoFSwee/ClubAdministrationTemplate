@@ -1,4 +1,5 @@
-﻿using ClubAdministration.Core.Entities;
+﻿using ClubAdministration.Core.DataTransferObjects;
+using ClubAdministration.Core.Entities;
 using System.Threading.Tasks;
 
 namespace ClubAdministration.Core.Contracts
@@ -11,6 +12,8 @@ namespace ClubAdministration.Core.Contracts
         void UpdateMember(Member member);
         bool CheckIfMemberExistsSync(int id, string firstName, string lastName);
         Task<string[]> GetAllMemberNamesAsync();
+        Task<MemberDto[]> GetMemberDtosBySectionId(int sectionId);
+        Task<Member> GetByIdAsync(int id);
             
     }
 }
