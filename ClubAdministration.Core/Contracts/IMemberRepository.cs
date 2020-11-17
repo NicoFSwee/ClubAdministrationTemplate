@@ -10,6 +10,7 @@ namespace ClubAdministration.Core.Contracts
         Task<Member[]> GetAllWithMemberSectionsAsync();
         void UpdateMember(Member member);
         bool CheckIfMemberExistsSync(int id, string firstName, string lastName);
+        Task<string[]> GetAllMemberNamesAsync();
             
     }
 }

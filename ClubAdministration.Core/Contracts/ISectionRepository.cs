@@ -7,5 +7,6 @@ namespace ClubAdministration.Core.Contracts
     {
         Task<Section[]> GetAllAsync();
         Task<Section[]> GetAllWithMemberSectionsAndMembersAsync();
+        Task<string[]> GetSectionNamesForMemberAsync(int id);
     }
 }

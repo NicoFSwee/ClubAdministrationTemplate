@@ -46,5 +46,10 @@ namespace ClubAdministration.Persistence
 
             return false;
         }
+
+        public async Task<string[]> GetAllMemberNamesAsync()
+            => await _dbContext.Members.OrderBy(m => m.LastName)
+                                        .Select(m => m.FullName)
+                                        .ToArrayAsync();
     }
 }
